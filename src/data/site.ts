@@ -42,7 +42,7 @@ export const siteConfig: SiteConfig = {
   eyebrow: "Relojería boutique · San José",
   description:
     "Especialistas en relojes 100% originales en Costa Rica. Piezas automáticas, de lujo, clásicas y deportivas con verificación de autenticidad y garantía escrita de 12 meses.",
-  url: "https://cronos-relojeria.vercel.app",
+  url: "https://landing-page-relojeria.pages.dev",
   ogImage: "/og-image.jpg",
   locale: "es_CR",
   phone: "+50688887777",

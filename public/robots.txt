@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap placeholder (descomentar una vez generado el sitemap)
-# Sitemap: https://cronos-relojeria.vercel.app/sitemap-index.xml
+# Sitemap: https://landing-page-relojeria.pages.dev/sitemap-index.xml
