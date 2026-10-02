@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <!-- Fondo Ink -->
+  <rect width="32" height="32" rx="6" fill="#0A0A0B"/>
+  
+  <!-- Monograma C en Oro -->
+  <path d="M22 10.5C20.6 8.9 18.4 8 16 8C11.6 8 8 11.6 8 16C8 20.4 11.6 24 16 24C18.4 24 20.6 23.1 22 21.5" 
+        stroke="#C9A227" 
+        stroke-width="2.75" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,112 @@
+---
+import { Image } from "astro:assets";
+import type { Watch } from "../../data/watches";
+import { formatPrice } from "../../utils/format";
+import { buildWatchWhatsappUrl } from "../../utils/whatsapp";
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
+
+interface Props {
+  watch: Watch;
+  index?: number;
+}
+
+const { watch, index = 0 } = Astro.props;
+const whatsappUrl = buildWatchWhatsappUrl(watch.brand, watch.model);
+
+const staggerDelays = ["delay-0", "delay-[80ms]", "delay-[160ms]", "delay-[240ms]"];
+const delayClass = staggerDelays[index % 4];
+---
+
+<article
+  class={`watch-card group flex flex-col justify-between bg-surface border border-line rounded-lg overflow-hidden transition-all duration-300 hover:border-line/70 hover:shadow-xl reveal ${delayClass}`}
+  data-category={watch.category}
+>
+  <!-- Image Container 4:5 Aspect Ratio -->
+  <div class="relative aspect-[4/5] bg-surface-2 overflow-hidden flex items-center justify-center">
+    <Image
+      src={watch.image}
+      widths={[320, 480, 640]}
+      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+      alt={watch.imageAlt}
+      loading="lazy"
+      class="w-full h-full object-cover object-center transform-gpu transition-transform duration-500 ease-out group-hover:motion-safe:scale-[1.04]"
+    />
+
+    <!-- Subtle gradient shadow overlay at bottom of image -->
+    <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60 pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Badge Badge (Nuevo / Última unidad) -->
+    {
+      watch.badge && (
+        <div class="absolute top-3 left-3 z-10">
+          <Badge text={watch.badge} variant={watch.badge === "Nuevo" ? "gold" : "subtle"} />
+        </div>
+      )
+    }
+
+    <!-- Category Pill Tag -->
+    <span class="absolute top-3 right-3 z-10 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-ink/75 backdrop-blur-sm text-muted/90 border border-line">
+      {watch.category}
+    </span>
+  </div>
+
+  <!-- Card Content -->
+  <div class="p-5 flex flex-col flex-grow justify-between gap-4">
+    <div class="flex flex-col">
+      <!-- Brand & Model -->
+      <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-muted mb-1 block">
+        {watch.brand}
+      </span>
+      <h3 class="font-serif text-lg sm:text-xl text-text font-semibold group-hover:text-gold transition-colors duration-200 line-clamp-1">
+        {watch.model}
+      </h3>
+
+      <!-- 2 Key Technical Specifications -->
+      <ul class="mt-3.5 space-y-1.5 border-t border-line/60 pt-3 text-xs text-muted/80">
+        <li class="flex items-center gap-2">
+          <span class="w-1 h-1 rounded-full bg-gold/70 flex-shrink-0" aria-hidden="true"></span>
+          <span class="line-clamp-1">{watch.movement}</span>
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="w-1 h-1 rounded-full bg-gold/70 flex-shrink-0" aria-hidden="true"></span>
+          <span class="line-clamp-1">{watch.caseMaterial} · Ø {watch.diameterMm} mm</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Price & WhatsApp Action CTA -->
+    <div class="pt-3 border-t border-line flex items-center justify-between gap-3 mt-auto">
+      <div class="flex flex-col">
+        <span class="text-[10px] uppercase tracking-wider text-muted font-sans">Precio</span>
+        <span class="font-sans font-medium text-gold text-base sm:text-lg tracking-tight">
+          {formatPrice(watch.priceCRC)}
+        </span>
+      </div>
+
+      <Button
+        href={whatsappUrl}
+        target="_blank"
+        variant="secondary"
+        size="sm"
+        ariaLabel={`Consultar por WhatsApp la disponibilidad de ${watch.brand} ${watch.model}`}
+        class="text-xs px-3.5 py-2 group-hover:border-gold/50 group-hover:bg-gold/10 group-hover:text-gold-soft transition-all"
+      >
+        <span>Consultar</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="w-3.5 h-3.5 ml-1.5 opacity-75 group-hover:opacity-100 group-hover:translate-x-0.5 transition-transform"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </Button>
+    </div>
+  </div>
+</article>

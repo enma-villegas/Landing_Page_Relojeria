@@ -1,0 +1,97 @@
+---
+import { siteConfig } from "../../data/site";
+import { buildWhatsappUrl } from "../../utils/whatsapp";
+
+const currentYear = new Date().getFullYear();
+
+const navLinks = [
+  { label: "Catálogo", href: "#catalogo" },
+  { label: "Marcas", href: "#marcas" },
+  { label: "Autenticidad", href: "#autenticidad" },
+  { label: "Ubicación", href: "#ubicacion" },
+  { label: "Preguntas Frecuentes", href: "#faq" }
+];
+---
+
+<footer class="bg-surface border-t border-line mt-auto">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 sm:gap-16 pb-12 border-b border-line">
+      <!-- Col 1: Wordmark & Statement -->
+      <div class="md:col-span-5 flex flex-col items-start gap-4">
+        <a href="/" class="flex items-center gap-2 group focus-visible:outline-2 focus-visible:outline-gold">
+          <span class="w-6 h-6 rounded-full border border-gold flex items-center justify-center text-[10px] text-gold font-serif">
+            C
+          </span>
+          <span class="font-serif text-2xl tracking-wider text-text uppercase font-semibold">
+            Cronos<span class="text-gold font-light ml-1 text-sm tracking-widest lowercase">relojería</span>
+          </span>
+        </a>
+        <p class="text-muted text-sm leading-relaxed max-w-sm">
+          Salón boutique especializado en piezas de relojería 100% auténticas, garantizadas y verificadas en San José, Costa Rica.
+        </p>
+      </div>
+
+      <!-- Col 2: Navigation Links -->
+      <div class="md:col-span-3 flex flex-col gap-3">
+        <span class="text-xs uppercase tracking-widest text-gold font-medium mb-1">Navegación</span>
+        <ul class="flex flex-col gap-2.5">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-muted hover:text-text transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-gold"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Col 3: Contact & Instagram -->
+      <div class="md:col-span-4 flex flex-col gap-3">
+        <span class="text-xs uppercase tracking-widest text-gold font-medium mb-1">Contacto y Salón</span>
+        <p class="text-sm text-muted">
+          {siteConfig.address.street}, {siteConfig.address.neighborhood}<br />
+          {siteConfig.address.city}, {siteConfig.address.country}
+        </p>
+        <div class="flex items-center gap-4 mt-2">
+          <a
+            href={siteConfig.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-muted hover:text-gold transition-colors duration-200 flex items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-gold"
+            aria-label="Seguir a Cronos Relojería en Instagram"
+          >
+            <!-- Instagram Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>{siteConfig.instagramHandle}</span>
+          </a>
+          <span class="text-line">|</span>
+          <a
+            href={buildWhatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-muted hover:text-gold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-gold"
+          >
+            WhatsApp {siteConfig.whatsappDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Credits & Legal Notice -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted/70">
+      <p>© {currentYear} {siteConfig.name}. Todos los derechos reservados.</p>
+      <p class="tracking-wide text-center sm:text-right text-muted/50">
+        Sitio demostrativo — marca ficticia
+      </p>
+    </div>
+  </div>
+</footer>

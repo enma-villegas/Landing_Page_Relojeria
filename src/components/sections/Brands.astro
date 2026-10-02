@@ -1,0 +1,45 @@
+---
+import { brands } from "../../data/brands";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const delayClasses = ["delay-0", "delay-[80ms]", "delay-[160ms]", "delay-[240ms]", "delay-[320ms]", "delay-[400ms]"];
+---
+
+<section
+  id="marcas"
+  class="py-20 sm:py-28 border-b border-line bg-surface/40"
+  aria-labelledby="brands-heading"
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <!-- Header -->
+    <div class="reveal mb-14 text-center">
+      <SectionHeading
+        eyebrow="Casas y Manufacturas"
+        title="Trabajamos las casas que definieron la relojería"
+        subtitle="Seleccionamos exclusivamente marcas con tradición mecánica comprobada y los más altos estándares de precisión."
+        align="center"
+      />
+    </div>
+
+    <!-- Brands Grid list: text only, display font, opacity 0.5 -> 1 on hover -->
+    <ul
+      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 items-center justify-items-center"
+      role="list"
+    >
+      {
+        brands.map((brand, index) => (
+          <li
+            class={`reveal ${delayClasses[index] || "delay-0"} w-full text-center flex flex-col items-center justify-center p-4 rounded-md border border-transparent hover:border-line hover:bg-surface-2/40 transition-all duration-200 group`}
+          >
+            <span class="font-serif text-xl sm:text-2xl text-text opacity-50 group-hover:opacity-100 group-hover:text-gold transition-opacity duration-200 select-none tracking-wide text-center">
+              {brand.name}
+            </span>
+            <span class="text-[10px] uppercase font-mono tracking-widest text-muted/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-1">
+              {brand.origin}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

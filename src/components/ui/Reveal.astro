@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  delay?: number;
+  class?: string;
+  as?: string;
+}
+
+const {
+  delay = 0,
+  class: className = "",
+  as: Element = "div",
+  ...rest
+} = Astro.props;
+
+const delayClass =
+  delay === 80
+    ? "delay-[80ms]"
+    : delay === 100
+      ? "delay-100"
+      : delay === 160
+        ? "delay-[160ms]"
+        : delay === 200
+          ? "delay-200"
+          : delay === 240
+            ? "delay-[240ms]"
+            : delay === 300
+              ? "delay-300"
+              : delay === 400
+                ? "delay-[400ms]"
+                : "";
+---
+
+<Element class={`reveal ${delayClass} ${className}`.trim()} {...rest}>
+  <slot />
+</Element>

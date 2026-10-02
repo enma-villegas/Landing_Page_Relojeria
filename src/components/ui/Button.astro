@@ -1,0 +1,69 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
+  href?: string;
+  target?: string;
+  rel?: string;
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  target,
+  rel = target === "_blank" ? "noopener noreferrer" : undefined,
+  type = "button",
+  ariaLabel,
+  class: className = "",
+  ...rest
+} = Astro.props;
+
+const baseStyles =
+  "inline-flex items-center justify-center font-medium tracking-wide transition-all duration-200 min-h-[44px] min-w-[44px] cursor-pointer select-none rounded text-center focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-3 disabled:opacity-50 disabled:cursor-not-allowed";
+
+const sizeStyles = {
+  sm: "px-4 py-2 text-xs",
+  md: "px-6 py-2.5 text-sm",
+  lg: "px-8 py-3.5 text-base"
+};
+
+const variantStyles = {
+  primary:
+    "bg-gold text-ink font-medium hover:bg-gold-soft active:translate-y-[1px] shadow-sm hover:shadow",
+  secondary:
+    "bg-transparent text-text border border-line hover:border-gold/60 hover:bg-surface-2 active:translate-y-[1px]",
+  ghost:
+    "bg-transparent text-muted hover:text-text hover:bg-surface-2"
+};
+
+const classes = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`.trim();
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      class={classes}
+      aria-label={ariaLabel}
+      {...(rest as HTMLAttributes<"a">)}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      type={type}
+      class={classes}
+      aria-label={ariaLabel}
+      {...rest}
+    >
+      <slot />
+    </button>
+  )
+}

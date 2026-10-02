@@ -1,0 +1,132 @@
+---
+import { Image } from "astro:assets";
+import authenticityImage from "../../assets/authenticity.jpg";
+import { buildWhatsappUrl } from "../../utils/whatsapp";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const authenticityWhatsappUrl = buildWhatsappUrl(
+  "Hola Cronos Relojería, me gustaría consultar la procedencia y el informe de autenticidad de una de sus piezas."
+);
+
+const steps = [
+  {
+    number: "01",
+    title: "Trazabilidad de origen y número de serie",
+    description:
+      "Cotejamos individualmente cada número de serie y grabados de caja contra los archivos históricos y registros oficiales del fabricante."
+  },
+  {
+    number: "02",
+    title: "Inspección técnica por relojero certificado",
+    description:
+      "Desarme parcial y diagnóstico de 24 puntos: amplitud de oscilación en cronocomparador suizo, prueba de hermeticidad y estado de componentes originales."
+  },
+  {
+    number: "03",
+    title: "Certificado timbrado y garantía de 12 meses",
+    description:
+      "Entregamos cada pieza con su documento de autenticidad respaldado por nuestro taller y póliza escrita de garantía oficial por un año."
+  }
+];
+
+const delayClasses = ["delay-0", "delay-100", "delay-200"];
+---
+
+<section
+  id="autenticidad"
+  class="py-20 sm:py-32 border-b border-line bg-ink relative overflow-hidden"
+  aria-labelledby="authenticity-heading"
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <!-- Image Column (Mobile Top, Desktop Left) -->
+      <div class="lg:col-span-5 order-1 lg:order-1 reveal">
+        <div class="relative rounded-lg overflow-hidden border border-line bg-surface group shadow-2xl">
+          <Image
+            src={authenticityImage}
+            widths={[400, 600, 800]}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            alt="Relojero maestro examinando con lupa de aumento el calibre y engranajes de un reloj de precisión"
+            loading="lazy"
+            class="w-full h-auto object-cover aspect-[4/5] transform-gpu transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent pointer-events-none"
+            aria-hidden="true"
+          ></div>
+          <div class="absolute bottom-4 left-4 right-4 p-4 rounded bg-surface/90 backdrop-blur-md border border-line">
+            <p class="text-xs text-muted font-sans flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-gold" aria-hidden="true"></span>
+              Inspección técnica en salón de Barrio Escalante
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Column (Mobile Bottom, Desktop Right) -->
+      <div class="lg:col-span-7 order-2 lg:order-2 flex flex-col justify-center">
+        <div class="reveal mb-8">
+          <SectionHeading
+            eyebrow="Autenticidad garantizada"
+            title="Cero margen de duda. Cada pieza es verificada."
+            subtitle="Entendemos que el valor de un reloj reside en su legitimidad. Nuestro protocolo de certificación elimina cualquier riesgo de falsificación."
+            align="left"
+          />
+        </div>
+
+        <!-- 3-step Verification Process with <ol> -->
+        <ol class="space-y-6 sm:space-y-8 mb-10" role="list">
+          {
+            steps.map((step, index) => (
+              <li
+                class={`reveal ${delayClasses[index]} flex items-start gap-5 group`}
+              >
+                <!-- Number in display font and brand gold -->
+                <span
+                  class="font-serif text-3xl sm:text-4xl text-gold font-semibold leading-none flex-shrink-0 pt-1 select-none"
+                  aria-hidden="true"
+                >
+                  {step.number}
+                </span>
+
+                <div class="flex flex-col">
+                  <h3 class="font-sans text-base sm:text-lg font-medium text-text tracking-wide mb-1.5 group-hover:text-gold transition-colors duration-200">
+                    {step.title}
+                  </h3>
+                  <p class="text-sm text-muted leading-relaxed font-sans">
+                    {step.description}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <!-- CTA Text Link to WhatsApp -->
+        <div class="reveal pt-4 border-t border-line/80">
+          <a
+            href={authenticityWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2.5 text-sm sm:text-base font-medium text-gold hover:text-gold-soft transition-colors duration-200 group focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4 py-1"
+          >
+            <span>Consultá la procedencia de cualquier pieza</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-4 h-4 transform-gpu transition-transform duration-200 group-hover:translate-x-1"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

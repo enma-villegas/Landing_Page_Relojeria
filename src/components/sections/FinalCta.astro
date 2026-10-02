@@ -1,0 +1,56 @@
+---
+import { buildWhatsappUrl } from "../../utils/whatsapp";
+import Button from "../ui/Button.astro";
+
+const ctaUrl = buildWhatsappUrl(
+  "Hola Cronos Relojería, me gustaría recibir asesoría personalizada para elegir mi próxima pieza."
+);
+---
+
+<section
+  id="contacto"
+  class="py-24 sm:py-36 bg-ink relative overflow-hidden text-center border-b border-line"
+  aria-labelledby="final-cta-heading"
+>
+  <!-- Subtle radial background glow -->
+  <div
+    class="absolute inset-0 bg-radial-[at_50%_50%] from-gold/5 via-transparent to-transparent pointer-events-none"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 flex flex-col items-center">
+    <!-- Subtle Gold Top Accent Line (48px) -->
+    <div
+      class="reveal w-12 h-[2px] bg-gold mb-8 select-none"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Strong Title in Display Typography -->
+    <h2
+      id="final-cta-heading"
+      class="reveal delay-100 text-3xl sm:text-5xl md:text-6xl font-serif text-text tracking-tight leading-[1.1] mb-6 font-semibold"
+    >
+      Su próximo reloj ya lo está esperando
+    </h2>
+
+    <!-- Subtitle -->
+    <p
+      class="reveal delay-200 text-base sm:text-lg text-muted max-w-xl mb-10 font-sans leading-relaxed"
+    >
+      Atención exclusiva, verificación técnica garantizada y entregas aseguradas en todo Costa Rica. Escríbanos para coordinar su visita o consultar por cualquiera de nuestras piezas.
+    </p>
+
+    <!-- Primary Action Button -->
+    <div class="reveal delay-300 w-full sm:w-auto">
+      <Button
+        href={ctaUrl}
+        target="_blank"
+        variant="primary"
+        size="lg"
+        class="w-full sm:w-auto px-10 py-4 text-base font-semibold shadow-lg hover:shadow-gold/20"
+      >
+        Escribinos por WhatsApp
+      </Button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,134 @@
+---
+const trustItems = [
+  {
+    title: "100% Originales",
+    description: "Inspección rigurosa y trazabilidad de serie garantizada.",
+    icon: "shield"
+  },
+  {
+    title: "Garantía 12 Meses",
+    description: "Certificado timbrado con respaldo total de funcionamiento.",
+    icon: "award"
+  },
+  {
+    title: "Verificación Técnica",
+    description: "Comprobación en cronocomparador y prueba de estanqueidad.",
+    icon: "search"
+  },
+  {
+    title: "Entregas en Todo el País",
+    description: "Envíos asegurados y entregas en mano en el GAM.",
+    icon: "truck"
+  }
+];
+
+const delayClasses = ["delay-0", "delay-[80ms]", "delay-[160ms]", "delay-[240ms]"];
+---
+
+<section
+  id="trust-bar"
+  class="relative z-20 border-y border-line bg-surface/80 backdrop-blur-sm py-10 sm:py-12"
+  aria-label="Garantías y compromisos de autenticidad"
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <!-- Semantic list for accessibility -->
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+      {
+        trustItems.map((item, index) => (
+          <li
+            class={`reveal ${delayClasses[index]} flex items-start gap-4 group`}
+          >
+            <!-- Icon container with subtle luxury touch -->
+            <div class="flex-shrink-0 w-11 h-11 rounded border border-line bg-surface-2/60 flex items-center justify-center text-gold group-hover:border-gold/40 group-hover:bg-gold/5 transition-all duration-300">
+              {item.icon === "shield" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              )}
+
+              {item.icon === "award" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="8" r="6" />
+                  <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                </svg>
+              )}
+
+              {item.icon === "search" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                  <path d="M11 8v6" />
+                  <path d="M8 11h6" />
+                </svg>
+              )}
+
+              {item.icon === "truck" && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect width="16" height="13" x="1" y="5" rx="2" />
+                  <path d="M16 8h4l3 3v5h-7V8z" />
+                  <circle cx="5.5" cy="18.5" r="2.5" />
+                  <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+              )}
+            </div>
+
+            <!-- Content -->
+            <div class="flex flex-col">
+              <h3 class="text-sm font-sans font-medium text-text tracking-wide mb-1">
+                {item.title}
+              </h3>
+              <p class="text-xs text-muted leading-relaxed font-sans max-w-[24ch]">
+                {item.description}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

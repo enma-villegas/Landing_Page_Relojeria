@@ -1,0 +1,24 @@
+---
+interface Props {
+  text: "Nuevo" | "Última unidad" | string;
+  variant?: "gold" | "subtle";
+  class?: string;
+}
+
+const {
+  text,
+  variant = "gold",
+  class: className = ""
+} = Astro.props;
+
+const variantStyles = {
+  gold: "bg-gold/15 text-gold border-gold/30",
+  subtle: "bg-surface-2 text-muted border-line"
+};
+---
+
+<span
+  class={`inline-flex items-center px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider rounded border ${variantStyles[variant]} ${className}`}
+>
+  {text}
+</span>

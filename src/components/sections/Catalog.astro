@@ -1,0 +1,132 @@
+---
+import { watches } from "../../data/watches";
+import SectionHeading from "../ui/SectionHeading.astro";
+import WatchCard from "../ui/WatchCard.astro";
+
+const categories = ["Todos", "Automático", "Lujo", "Deportivo", "Clásico"] as const;
+---
+
+<section
+  id="catalogo"
+  class="py-20 sm:py-32 border-b border-line bg-ink"
+  aria-labelledby="catalog-heading"
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <!-- Header -->
+    <div class="reveal mb-12 sm:mb-16">
+      <SectionHeading
+        eyebrow="Colección Exclusiva"
+        title="Piezas Disponibles"
+        subtitle="Cada ejemplar incluye certificación de autenticidad, estuche de manufactura y garantía oficial de 12 meses."
+        align="center"
+      />
+    </div>
+
+    <!-- Filter Buttons Toolbar -->
+    <div
+      class="reveal delay-100 flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10"
+      role="toolbar"
+      aria-label="Filtrar colección por categoría"
+    >
+      {
+        categories.map((cat, idx) => (
+          <button
+            type="button"
+            class={`catalog-filter-btn px-4 py-2 text-xs sm:text-sm font-medium tracking-wide rounded-md transition-all duration-200 cursor-pointer min-h-[44px] border ${
+              idx === 0
+                ? "bg-gold text-ink border-gold font-semibold shadow-sm is-active"
+                : "bg-surface text-muted border-line hover:border-gold/50 hover:text-text"
+            }`}
+            data-filter={cat}
+            aria-pressed={idx === 0 ? "true" : "false"}
+          >
+            {cat}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Live Region: Announces result counts to screen readers -->
+    <div
+      id="catalog-live-feedback"
+      class="sr-only"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      Mostrando 8 piezas disponibles
+    </div>
+
+    <!-- Catalog Grid: 1 col móvil, 2 tablet, 4 desktop -->
+    <div
+      id="catalog-grid"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
+      role="region"
+      aria-label="Catálogo de relojes"
+    >
+      {
+        watches.map((watch, index) => (
+          <WatchCard watch={watch} index={index} />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Minimal Vanilla Filtering Script: Progressive Enhancement with hidden attribute -->
+<script>
+  const initCatalogFiltering = () => {
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>(".catalog-filter-btn");
+    const cards = document.querySelectorAll<HTMLElement>(".watch-card");
+    const liveRegion = document.getElementById("catalog-live-feedback");
+
+    if (!filterButtons.length || !cards.length) return;
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const selectedCategory = button.getAttribute("data-filter");
+        if (!selectedCategory) return;
+
+        // Update button states & accessibility attributes
+        filterButtons.forEach((btn) => {
+          const isActive = btn === button;
+          btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+          if (isActive) {
+            btn.classList.add("bg-gold", "text-ink", "border-gold", "font-semibold", "shadow-sm", "is-active");
+            btn.classList.remove("bg-surface", "text-muted", "border-line");
+          } else {
+            btn.classList.remove("bg-gold", "text-ink", "border-gold", "font-semibold", "shadow-sm", "is-active");
+            btn.classList.add("bg-surface", "text-muted", "border-line");
+          }
+        });
+
+        // Filter cards using semantic hidden attribute
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const cardCategory = card.getAttribute("data-category");
+          const shouldShow = selectedCategory === "Todos" || cardCategory === selectedCategory;
+
+          if (shouldShow) {
+            card.removeAttribute("hidden");
+            card.style.display = "";
+            visibleCount++;
+          } else {
+            card.setAttribute("hidden", "");
+            card.style.display = "none";
+          }
+        });
+
+        // Announce count to screen readers
+        if (liveRegion) {
+          const plural = visibleCount === 1 ? "pieza disponible" : "piezas disponibles";
+          liveRegion.textContent = `Mostrando ${visibleCount} ${plural} para la categoría ${selectedCategory}`;
+        }
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCatalogFiltering);
+  } else {
+    initCatalogFiltering();
+  }
+</script>

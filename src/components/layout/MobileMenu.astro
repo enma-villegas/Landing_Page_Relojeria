@@ -1,0 +1,152 @@
+---
+import Button from "../ui/Button.astro";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  navLinks: NavLink[];
+  ctaUrl: string;
+}
+
+const { navLinks, ctaUrl } = Astro.props;
+---
+
+<div
+  id="mobile-navigation-menu"
+  class="fixed inset-0 z-50 bg-ink/95 backdrop-blur-xl flex flex-col justify-between px-6 py-8 md:hidden transition-all duration-300 opacity-0 pointer-events-none -translate-y-4"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú de navegación principal"
+>
+  <!-- Top Bar: Logo & Close Button -->
+  <div class="flex items-center justify-between pb-6 border-b border-line">
+    <div class="flex items-center gap-2">
+      <span class="w-6 h-6 rounded-full border border-gold flex items-center justify-center text-[10px] text-gold font-serif">
+        C
+      </span>
+      <span class="font-serif text-lg tracking-wider text-text uppercase font-semibold">
+        Cronos<span class="text-gold font-light ml-1 text-xs tracking-widest lowercase">relojería</span>
+      </span>
+    </div>
+
+    <button
+      type="button"
+      id="mobile-menu-close-btn"
+      class="w-11 h-11 flex items-center justify-center rounded border border-line text-muted hover:text-text hover:border-gold/50 focus-visible:outline-2 focus-visible:outline-gold cursor-pointer"
+      aria-label="Cerrar menú de navegación"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav class="flex flex-col gap-6 py-10" aria-label="Enlaces móviles">
+    {
+      navLinks.map((link, index) => (
+        <a
+          href={link.href}
+          class="mobile-nav-link text-2xl font-serif text-text hover:text-gold transition-colors duration-200 py-2 border-b border-line/40 flex items-center justify-between focus-visible:outline-2 focus-visible:outline-gold"
+          data-index={index}
+        >
+          <span>{link.label}</span>
+          <span class="text-xs text-muted font-sans font-normal tracking-wider">0{index + 1}</span>
+        </a>
+      ))
+    }
+  </nav>
+
+  <!-- Mobile Bottom Section: WhatsApp CTA & Info -->
+  <div class="pt-6 border-t border-line flex flex-col gap-4">
+    <Button href={ctaUrl} target="_blank" size="lg" variant="primary" class="w-full text-center">
+      Escribinos por WhatsApp
+    </Button>
+    <p class="text-xs text-center text-muted tracking-wide">
+      Barrio Escalante, San José · Lun a Vie 10:00–19:00
+    </p>
+  </div>
+</div>
+
+<!-- Accessible Mobile Menu Script: Focus Trap, Body Lock, Escape Key -->
+<script>
+  const initMobileMenu = () => {
+    const openBtn = document.getElementById("mobile-menu-open-btn");
+    const closeBtn = document.getElementById("mobile-menu-close-btn");
+    const menu = document.getElementById("mobile-navigation-menu");
+    const navLinks = document.querySelectorAll(".mobile-nav-link");
+
+    if (!openBtn || !closeBtn || !menu) return;
+
+    let previousActiveElement: HTMLElement | null = null;
+
+    const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    const openMenu = () => {
+      previousActiveElement = document.activeElement as HTMLElement;
+      menu.classList.remove("opacity-0", "pointer-events-none", "-translate-y-4");
+      menu.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+      openBtn.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+
+      // Focus close button initially
+      closeBtn.focus();
+    };
+
+    const closeMenu = () => {
+      menu.classList.add("opacity-0", "pointer-events-none", "-translate-y-4");
+      menu.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+      openBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+
+      if (previousActiveElement) {
+        previousActiveElement.focus();
+      }
+    };
+
+    openBtn.addEventListener("click", openMenu);
+    closeBtn.addEventListener("click", closeMenu);
+
+    // Close on navigation link click
+    navLinks.forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Close on Escape key press
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && openBtn.getAttribute("aria-expanded") === "true") {
+        closeMenu();
+      }
+    });
+
+    // Trap focus inside modal
+    menu.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab") return;
+
+      const focusables = menu.querySelectorAll<HTMLElement>(focusableSelectors);
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileMenu);
+  } else {
+    initMobileMenu();
+  }
+</script>

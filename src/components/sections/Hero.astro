@@ -1,0 +1,116 @@
+---
+import { Picture } from "astro:assets";
+import heroImage from "../../assets/hero-watch.jpg";
+import { siteConfig } from "../../data/site";
+import { buildWhatsappUrl } from "../../utils/whatsapp";
+import Button from "../ui/Button.astro";
+
+const ctaWhatsapp = buildWhatsappUrl(
+  "Hola Cronos Relojería, vengo de su sitio web y me gustaría recibir asesoría sobre sus piezas disponibles."
+);
+---
+
+<section
+  class="relative min-h-[85vh] sm:min-h-[90vh] flex flex-col justify-center items-center overflow-hidden pt-24 pb-16 px-5 sm:px-8"
+  aria-labelledby="hero-title"
+>
+  <!-- Background Image with Astro Picture component for AVIF/WebP responsive loading -->
+  <div class="absolute inset-0 z-0">
+    <Picture
+      src={heroImage}
+      widths={[640, 1024, 1600, 2000]}
+      sizes="100vw"
+      formats={["avif", "webp"]}
+      alt="Primer plano artesanal de la maquinaria y esfera de un reloj de alta gama"
+      loading="eager"
+      fetchpriority="high"
+      class="w-full h-full object-cover object-center scale-[1.02] transform-gpu"
+    />
+
+    <!-- Multi-layer gradient overlays to guarantee WCAG AA contrast against dark ink tokens -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-ink/45 pointer-events-none"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-0 bg-radial-[at_50%_50%] from-transparent via-ink/40 to-ink pointer-events-none"
+      aria-hidden="true"
+    ></div>
+  </div>
+
+  <!-- Hero Content Center -->
+  <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center mt-6">
+    <!-- Eyebrow -->
+    <div class="reveal inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-gold/30 bg-ink/70 backdrop-blur-md mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-gold" aria-hidden="true"></span>
+      <span class="text-xs uppercase tracking-[0.25em] text-gold font-medium">
+        {siteConfig.eyebrow}
+      </span>
+    </div>
+
+    <!-- H1 Title: Único h1 de la página -->
+    <h1
+      id="hero-title"
+      class="reveal delay-100 text-4xl sm:text-6xl md:text-7xl font-serif text-text tracking-tight leading-[1.08] mb-6 drop-shadow-sm font-semibold max-w-3xl"
+    >
+      {siteConfig.tagline}
+    </h1>
+
+    <!-- Subtitle on authenticity and warranty -->
+    <p
+      class="reveal delay-200 text-base sm:text-lg md:text-xl text-muted font-normal leading-relaxed max-w-2xl mb-10 font-sans"
+    >
+      Selección curada de manufactura original con certificación individual, 
+      garantía escrita de 12 meses y atención personalizada en nuestro salón de Barrio Escalante.
+    </p>
+
+    <!-- CTAs -->
+    <div
+      class="reveal delay-300 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+    >
+      <Button
+        href="#catalogo"
+        variant="primary"
+        size="lg"
+        class="w-full sm:w-auto px-8 py-3.5 text-sm sm:text-base"
+      >
+        Ver catálogo
+      </Button>
+      <Button
+        href={ctaWhatsapp}
+        target="_blank"
+        variant="secondary"
+        size="lg"
+        class="w-full sm:w-auto px-8 py-3.5 text-sm sm:text-base flex items-center gap-2"
+      >
+        <span>Consultar por WhatsApp</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="w-4 h-4 text-gold"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </Button>
+    </div>
+  </div>
+
+  <!-- Decorative Scroll Indicator -->
+  <a
+    href="#trust-bar"
+    class="reveal delay-[400ms] absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-muted/60 hover:text-gold transition-colors duration-200 group"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <span class="text-[10px] uppercase tracking-widest font-mono">Descubrir</span>
+    <div class="w-5 h-8 rounded-full border border-line group-hover:border-gold/50 flex items-start justify-center p-1 transition-colors">
+      <span class="w-1 h-2 bg-gold rounded-full animate-bounce mt-0.5"></span>
+    </div>
+  </a>
+</section>

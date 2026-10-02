@@ -1,0 +1,62 @@
+---
+import { faqItems } from "../../data/faq";
+import SectionHeading from "../ui/SectionHeading.astro";
+---
+
+<section
+  id="faq"
+  class="py-20 sm:py-32 border-b border-line bg-surface/20"
+  aria-labelledby="faq-heading"
+>
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <!-- Header -->
+    <div class="reveal mb-14 text-center">
+      <SectionHeading
+        eyebrow="Dudas Frecuentes"
+        title="Preguntas frecuentes"
+        subtitle="Todo lo que necesita saber sobre garantías, formas de pago (incluyendo SINPE Móvil), entregas y nuestro servicio técnico."
+        align="center"
+      />
+    </div>
+
+    <!-- FAQ Accordion with Native semantic <details>/<summary> & Pure CSS Animation (Zero JS) -->
+    <div class="space-y-4" role="region" aria-label="Acordeón de preguntas frecuentes">
+      {
+        faqItems.map((item, index) => (
+          <details
+            class="reveal group bg-surface border border-line rounded-lg overflow-hidden transition-all duration-200 hover:border-line/80 open:border-gold/30 open:bg-surface-2/60"
+            style={`transition-delay: ${index * 60}ms;`}
+          >
+            <summary class="flex items-center justify-between gap-4 p-5 sm:p-6 cursor-pointer select-none text-text font-sans font-medium text-base sm:text-lg tracking-wide hover:text-gold transition-colors focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 list-none [&::-webkit-details-marker]:hidden">
+              <span>{item.question}</span>
+
+              <!-- Pure CSS indicator: rotates '+' to '×' (45deg) when opened -->
+              <span
+                class="flex-shrink-0 w-7 h-7 rounded-full border border-line bg-surface-2 flex items-center justify-center text-muted group-open:text-gold group-open:border-gold/40 group-open:rotate-45 transition-all duration-300"
+                aria-hidden="true"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-4 h-4"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-muted leading-relaxed font-sans border-t border-line/40">
+              <p>{item.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
